@@ -24,3 +24,6 @@ def load_and_preprocess_data():
 
 # Load data once for the app lifecycle
 main_df, airport_df, airline_df = load_and_preprocess_data()
+
+
+print(main_df)

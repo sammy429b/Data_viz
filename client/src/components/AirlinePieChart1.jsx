@@ -5,13 +5,13 @@ import Plot from 'react-plotly.js';
 function AirlinePieChart1() {
   const [data, setData] = useState(null); // Data should be an object with labels and values
   const [loading, setLoading] = useState(true);
-  const { startDate, endDate } = useContext(DatePickerContext);
+  const { startDate, endDate, airline } = useContext(DatePickerContext);
 
   useEffect(() => {
       const fetchData = async () => {
           try {
               const response = await fetch(
-                  'http://127.0.0.1:8000/charts/delay-pie?airport=JFK&start_date=2015-01-01&end_date=2015-12-31'
+                  `http://127.0.0.1:8000/airline/delay-pie-airline?airline=${airline}&start_date=${startDate}&end_date=${endDate}`
               );
               const result = await response.json();
 
@@ -28,7 +28,7 @@ function AirlinePieChart1() {
       };
 
       fetchData();
-  }, []); // Empty dependency array to run once when the component mounts
+  }, [startDate, endDate, airline]); // Empty dependency array to run once when the component mounts
 
   // Check if data is still loading
   if (loading) {
@@ -55,7 +55,7 @@ function AirlinePieChart1() {
                       textinfo: 'label+percent', // Display label and percentage
                       hoverinfo: 'label+percent', // Show label and percentage on hover
                       marker: {
-                          colors: ['blue', 'red', 'orange', 'green'], // Colors for the pie slices
+                          colors: ['BLACK', 'RED', 'GREEN', 'BLUE'], // Colors for the pie slices
                       },
                   },
               ]}

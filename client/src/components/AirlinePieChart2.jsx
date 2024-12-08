@@ -5,12 +5,12 @@ import Plot from 'react-plotly.js';
 function AirlinePieChart2() {
     const [data, setData] = useState(null); // Data should be an object with labels and values
     const [loading, setLoading] = useState(true);
-    const { startDate, endDate } = useContext(DatePickerContext);
+    const { startDate, endDate, airline } = useContext(DatePickerContext);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(
-                    'http://127.0.0.1:8000/charts/delay-pie-sub?airport=JFK&start_date=2015-01-01&end_date=2015-12-31'
+                    `http://127.0.0.1:8000/airline/delay-pie-sub-airline?airline=${airline}&start_date=${startDate}&end_date=${endDate}`
                 );
                 const result = await response.json();
 
@@ -25,7 +25,7 @@ function AirlinePieChart2() {
         };
 
         fetchData();
-    }, []); // Run only once on mount
+    }, [startDate, endDate, airline]); // Run only once on mount
 
     // Check if data is still loading
     if (loading) {

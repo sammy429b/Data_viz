@@ -5,12 +5,12 @@ router = APIRouter()
 
 
 @router.get("/delay-pie-sub-airline", response_model=dict)
-def get_delay_pie_chart(airport: str, start_date: str, end_date: str):
+def get_delay_pie_chart(airline: str, start_date: str, end_date: str):
     """
     Get data for a pie chart representing the proportions of delay types.
     """
     # Filter the data based on the provided parameters
-    filtered_df = main_df[(main_df['ORIGIN_AIRPORT'] == airport) &
+    filtered_df = main_df[(main_df['AIRLINE'] == airline) &
                           (main_df['Date'] >= start_date) &
                           (main_df['Date'] <= end_date)]
 

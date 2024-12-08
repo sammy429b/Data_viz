@@ -4,11 +4,11 @@ from models.response_schemas import FilteredDataResponse
 
 router = APIRouter()
 
-@router.get("/chart/taxi-delays-airline", response_model=FilteredDataResponse)
-def get_taxi_delay_chart(airport: str, start_date: str, end_date: str):
+@router.get("/taxi-delays-airline", response_model=FilteredDataResponse)
+def get_taxi_delay_chart(airline: str, start_date: str, end_date: str):
     
     # Filter the data based on the provided parameters
-    filtered_df = main_df[(main_df['ORIGIN_AIRPORT'] == airport) & 
+    filtered_df = main_df[(main_df['AIRLINE'] == airline) & 
                           (main_df['Date'] >= start_date) & 
                           (main_df['Date'] <= end_date)]
     

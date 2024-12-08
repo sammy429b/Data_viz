@@ -25,7 +25,7 @@ def get_delay_pie_chart(airline: str, start_date: str, end_date: str):
 
     # Prepare the response data for the pie chart
     delay_data = {
-        "labels": ["Taxi In Delay", "Taxi Out Delay", "Arrival Delay", "Departure Delay"],
+        "labels": ["AIR_SYSTEM_DELAY", "SECURITY_DELAY", "AIRLINE_DELAY", "WEATHER_DELAY"],
         "values": [total_air_system, total_security_out, total_airline, total_weather]
     }
 

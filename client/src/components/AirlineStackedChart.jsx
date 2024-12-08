@@ -52,7 +52,7 @@ function AirlineStackedChart() {
     const avgArr = data.map(item => item.avg_arr);
 
     return (
-        <div style={{ width: '100%', height: "140vh" }}>
+        <div style={{ width: '100%', height: "100%" }}>
             <h1>Taxi In and Out Data - Stacked Bar Chart</h1>
 
             <Plot

@@ -22,11 +22,12 @@ def get_delay_pie_chart(airline: str, start_date: str, end_date: str):
     total_security_out = filtered_df['SECURITY_DELAY'].sum()
     total_airline = filtered_df['AIRLINE_DELAY'].sum()
     total_weather = filtered_df['WEATHER_DELAY'].sum()
+    total_late_aircraft = filtered_df['LATE_AIRCRAFT_DELAY'].sum()
 
     # Prepare the response data for the pie chart
     delay_data = {
-        "labels": ["AIR_SYSTEM_DELAY", "SECURITY_DELAY", "AIRLINE_DELAY", "WEATHER_DELAY"],
-        "values": [total_air_system, total_security_out, total_airline, total_weather]
+        "labels": ["AIR_SYSTEM_DELAY", "SECURITY_DELAY", "AIRLINE_DELAY", "WEATHER_DELAY", "LATE_AIRCRAFT_DELAY"],
+        "values": [total_air_system, total_security_out, total_airline, total_weather, total_late_aircraft]
     }
 
     return delay_data

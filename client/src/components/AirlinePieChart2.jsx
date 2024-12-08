@@ -52,7 +52,7 @@ function AirlinePieChart2() {
                         textinfo: 'label+percent', // Display label and percentage
                         hoverinfo: 'label+percent+value', // Show label, percentage, and value on hover
                         marker: {
-                            colors: ['green', 'green', 'green', 'green'], // Colors for pie slices
+                            colors: ['green', 'green', 'green', 'green',"green"], // Colors for pie slices
                         },
                     },
                 ]}

@@ -5,45 +5,45 @@ import { DatePickerContext } from '../context/DatePickerContext';
 const TaxiDataChart = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const { startDate, endDate, selectedAirport } = useContext(DatePickerContext);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true);
+                setError(null);
                 const response = await fetch(
                     `http://127.0.0.1:8000/charts/taxi-delays?airport=${selectedAirport}&start_date=${startDate}&end_date=${endDate}`
                 );
-                const result = await response.json();
-
-                // Log the API response to check its structure
-                console.log(result);
-
-                // Check if the result is an array, otherwise access the correct field
-                if (Array.isArray(result)) {
-                    setData(result); // Set data if it's an array
-                } else if (result.data && Array.isArray(result.data)) {
-                    setData(result.data); // Access 'data' if it's nested
-                } else {
-                    console.error('Invalid data format', result);
-                    setData([]); // Handle the error case (or show a fallback state)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
+                const result = await response.json();
+                setData(Array.isArray(result) ? result : result.data || []);
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setData([]); // Handle fetch error
+                setError('Failed to load data');
             } finally {
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, [startDate, endDate, selectedAirport]); // Empty dependency array to run once when the component mounts
+    }, [startDate, endDate, selectedAirport]);
 
-    // Check if data is still loading
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    // Ensure the data has been fetched before attempting to map
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    if (!data.length) {
+        return <div>No data available for the selected parameters.</div>;
+    }
+
     const dates = data.map(item => item.Date);
     const avgTaxiIn = data.map(item => item.avg_taxi_in);
     const avgTaxiOut = data.map(item => item.avg_taxi_out);
@@ -51,61 +51,57 @@ const TaxiDataChart = () => {
     const avgArr = data.map(item => item.avg_arr);
 
     return (
-        <div style={{ width: '100%', height: "140vh" }}>
+        <div style={{ width: '100%', height: '100%' }}>
             <h1>Taxi In and Out Data - Stacked Bar Chart</h1>
-
             <Plot
                 data={[
                     {
-                        x: dates, // Dates on the x-axis
-                        y: avgTaxiIn, // Average taxi in values on the y-axis
-                        width: 100,
-                        type: 'bar', // Bar chart
-                        name: 'Average Taxi In', // Name for the first segment
-                        marker: { color: 'blue' }, // Color for Taxi In bars
+                        x: dates,
+                        y: avgTaxiOut,
+                        type: 'bar',
+                        name: 'Average Taxi Out',
+                        marker: { color: 'RED' }, // Tomato color for better readability
                     },
                     {
-                        x: dates, // Dates on the x-axis
-                        y: avgTaxiOut, // Average taxi out values on the y-axis
-                        type: 'bar', // Bar chart
-                        name: 'Average Taxi Out', // Name for the second segment
-                        marker: { color: 'red' }, // Color for Taxi Out bars
+                        x: dates,
+                        y: avgDep,
+                        type: 'bar',
+                        name: 'Average Departure',
+                        marker: { color: 'BLUE' }, // Lime Green
                     },
                     {
-                        x: dates, // Dates on the x-axis
-                        y: avgDep, // Average taxi out values on the y-axis
-                        type: 'bar', // Bar chart
-                        name: 'Average Taxi Out', // Name for the second segment
-                        marker: { color: 'green' }, // Color for Taxi Out bars
+                        x: dates,
+                        y: avgArr,
+                        type: 'bar',
+                        name: 'Average Arrival',
+                        marker: { color: 'GREEN' }, // Steel Blue
                     },
                     {
-                        x: dates, // Dates on the x-axis
-                        y: avgArr, // Average taxi out values on the y-axis
-                        type: 'bar', // Bar chart
-                        name: 'Average Taxi Out', // Name for the second segment
-                        marker: { color: 'black' }, // Color for Taxi Out bars
+                        x: dates,
+                        y: avgTaxiIn,
+                        type: 'bar',
+                        name: 'Average Taxi In',
+                        marker: { color: 'BLACK' }, // Gold
                     },
                 ]}
                 layout={{
-                    title: 'Average Taxi In and Out (Stacked)', // Title of the graph
+                    title: 'Average Taxi In and Out (Stacked)',
                     xaxis: {
-                        title: 'Date', // Label for x-axis
-                        tickangle: 45, // Rotate x-axis labels for better visibility
+                        title: 'Date',
+                        tickangle: 45,
                     },
                     yaxis: {
-                        title: 'Average Taxi Count', // Label for y-axis
+                        title: 'Average Taxi Count',
                     },
-                    barmode: 'stack', // Stack the bars
-                    bargap: 0.4, // Adjust the gap between bars (0 to 1)
-                    // bargroupgap: , // Adjust the gap between grouped bars (0 to 1)
-                    showlegend: true, // Show legend for the graph
-                    margin: { t: 40, b: 50 }, // Adjust margins to avoid label cutoff
+                    barmode: 'stack',
+                    bargap: 0.3,
+                    showlegend: true,
+                    margin: { t: 50, b: 50 },
                 }}
                 config={{
-                    responsive: true, // Make the plot responsive
-                    displayModeBar: true, // Show mode bar for zooming and downloading
+                    responsive: true,
                 }}
-                style={{ width: '100%', height: '100vh' }}
+                style={{ width: '100%', height: '600px' }}
             />
         </div>
     );

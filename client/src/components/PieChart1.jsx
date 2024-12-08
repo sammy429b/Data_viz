@@ -54,7 +54,7 @@ const PieChart1 = () => {
                         textinfo: 'label+percent', // Display label and percentage
                         hoverinfo: 'label+percent', // Show label and percentage on hover
                         marker: {
-                            colors: ['blue', 'red', 'orange', 'green'], // Colors for the pie slices
+                            colors: ['BLACK', 'GREEN', 'RED', 'BLUE'], // Colors for the pie slices
                         },
                     },
                 ]}

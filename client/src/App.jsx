@@ -29,7 +29,7 @@ function App() {
               <input
                 type="date"
                 pattern="\d{4}-\d{2}-\d{2}"
-                min="2015-01-15"
+                min="2015-01-01"
                 max="2015-12-30"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}

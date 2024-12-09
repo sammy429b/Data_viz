@@ -7,4 +7,4 @@ router = APIRouter()
 @router.get("/", response_model=list[str])
 def get_states():
     """Get unique states."""
-    return main_df['AIRLINE'].unique().tolist()
+    return main_df['AIRLINE_NAME'].unique().tolist()

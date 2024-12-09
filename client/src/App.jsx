@@ -30,7 +30,7 @@ function App() {
                 type="date"
                 pattern="\d{4}-\d{2}-\d{2}"
                 min="2015-01-15"
-                max="2015-03-30"
+                max="2015-12-30"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 className="px-4 py-2 leading-none rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
@@ -42,8 +42,8 @@ function App() {
               <label className="text-sm font-semibold text-gray-700">End Date:</label>
               <input
                 type="date"
-                min="2015-02-15"
-                max="2015-03-31"
+                min="2015-01-02"
+                max="2015-12-31"
                 pattern="\d{4}-\d{2}-\d{2}"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}

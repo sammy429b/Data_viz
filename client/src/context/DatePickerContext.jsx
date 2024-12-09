@@ -6,7 +6,7 @@ export const DatePickerContext = createContext();
 // Provider component
 export const DatePickerProvider = ({ children }) => {
     const [startDate, setStartDate] = useState("2015-01-01");
-    const [endDate, setEndDate] = useState("2015-03-31");
+    const [endDate, setEndDate] = useState("2015-12-31");
     const [selectedAirport, setSelectedAirport] = useState("");
     const [airport, setAirport] = useState("");
     const [state, setState] = useState("");
